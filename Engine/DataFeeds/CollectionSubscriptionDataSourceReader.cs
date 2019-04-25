@@ -115,6 +115,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
                     catch (Exception err)
                     {
                         OnReaderError(raw, err);
+                        throw err;
                         continue;
                     }
 
