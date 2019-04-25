@@ -360,7 +360,7 @@ namespace QuantConnect.Util
         public static string GenerateRelativeZipFileDirectory(Symbol symbol, Resolution resolution)
         {
             var isHourOrDaily = resolution == Resolution.Hour || resolution == Resolution.Daily;
-            var securityType = symbol.ID.SecurityType.SecurityTypeToLower();
+            var securityType = symbol.SecurityType == SecurityType.Future ? "future-new" : symbol.ID.SecurityType.SecurityTypeToLower();
             var market = symbol.ID.Market.ToLower();
             var res = resolution.ResolutionToLower();
             var directory = Path.Combine(securityType, market, res);
@@ -411,7 +411,8 @@ namespace QuantConnect.Util
         /// </summary>
         public static string GenerateRelativeZipFilePath(string symbol, SecurityType securityType, string market, DateTime date, Resolution resolution)
         {
-            var directory = Path.Combine(securityType.SecurityTypeToLower(), market.ToLower(), resolution.ResolutionToLower());
+            var securityTypeStr = securityType == SecurityType.Future ? "future-new" : securityType.SecurityTypeToLower();
+            var directory = Path.Combine(securityTypeStr, market.ToLower(), resolution.ResolutionToLower());
             if (resolution != Resolution.Daily && resolution != Resolution.Hour)
             {
                 directory = Path.Combine(directory, symbol.ToLower());
